@@ -86,12 +86,24 @@ public class DaoCreaBBDD {
 				try(BufferedReader br=new BufferedReader(new FileReader(archivoCSV))){
 					String linea=br.readLine();
 					if(linea.equals("\"ID\",\"Name\",\"Sex\",\"Age\",\"Height\",\"Weight\",\"Team\",\"NOC\",\"Games\",\"Year\",\"Season\",\"City\",\"Sport\",\"Event\",\"Medal\"")) {
-						
+						linea=br.readLine();
+						while(linea!=null) {
+							String leido[]=linea.split(",");
+							DaoDeportista.aniadirDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), Integer.parseInt(leido[4]));
+							DaoDeporte.aniadirDeporte(leido[12]);
+							DaoEquipo.aniadirEquipo(leido[6], leido[7]);
+							DaoEvento.aniadirEvento(leido[13], Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])));
+							DaoOlimpiada.aniadirOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11]);
+							DaoParticipacion.aniadirParticipacion(Integer.parseInt(DaoEvento.conseguirIdEvento(leido[13], Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])))),
+									Integer.parseInt(DaoEquipo.conseguirIdEquipo(leido[6], leido[7])), Integer.parseInt(leido[3]), leido[14]);
+							linea=br.readLine();
+						}
+						System.out.println("La carga de la información se ha realizado correctamente");
 					}
 				} catch (FileNotFoundException e) {
-					e.printStackTrace();
+					System.out.println("El archivo csv no existe");
 				} catch (IOException e) {
-					e.printStackTrace();
+					System.out.println("Ha ocurrido algún error en la carga");
 				}
 			}
 		} catch (SQLException e) {
