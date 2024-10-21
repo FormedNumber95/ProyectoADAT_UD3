@@ -1,6 +1,11 @@
 package dao;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -77,8 +82,18 @@ public class DaoCreaBBDD {
 			ejecutarUpdate(crearTablaOlimpiada);
 			ejecutarUpdate(crearTablaEvento);
 			ejecutarUpdate(crearTablaParticipacion);
+			DaoDeporte.aniadirDeportista("PAKO");
 			if(archivoCSV.exists()&&archivoCSV.isFile()&&ruta.endsWith(".csv")) {
-				
+				try(BufferedReader br=new BufferedReader(new FileReader(archivoCSV))){
+					String linea=br.readLine();
+					if(linea.equals("\"ID\",\"Name\",\"Sex\",\"Age\",\"Height\",\"Weight\",\"Team\",\"NOC\",\"Games\",\"Year\",\"Season\",\"City\",\"Sport\",\"Event\",\"Medal\"")) {
+						
+					}
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
