@@ -82,7 +82,6 @@ public class DaoCreaBBDD {
 			ejecutarUpdate(crearTablaOlimpiada);
 			ejecutarUpdate(crearTablaEvento);
 			ejecutarUpdate(crearTablaParticipacion);
-			DaoDeporte.aniadirDeportista("PAKO");
 			if(archivoCSV.exists()&&archivoCSV.isFile()&&ruta.endsWith(".csv")) {
 				try(BufferedReader br=new BufferedReader(new FileReader(archivoCSV))){
 					String linea=br.readLine();

@@ -6,17 +6,20 @@ import java.sql.SQLException;
 
 import bbdd.ConexionBBDD;
 
-public class DaoDeporte {
+public class DaoDeportista {
 	
 	private static Connection conection;
 	
-	public static void aniadirDeporte(String nombreDeporte) {
+	public static void aniadirDeportista(String nombreDeportista,char sexo,float peso,int altura) {
 		conection=ConexionBBDD.getConnection();
-		String insertar="INSERT INTO Deporte (nombre) VALUES (?)";
+		String insertar="INSERT INTO Deportista (nombre,sexo,peso,altura) VALUES (?,?,?,?)";
+		PreparedStatement pstmt;
 		try {
-			PreparedStatement pstmt;
 			pstmt=conection.prepareStatement(insertar);
-			pstmt.setString(1, nombreDeporte);
+			pstmt.setString(1, nombreDeportista);
+			pstmt.setString(2, sexo+"");
+			pstmt.setFloat(3, peso);
+			pstmt.setInt(4, altura);
 			pstmt.executeUpdate();
 			conection.commit();
 			pstmt.close();
@@ -25,4 +28,5 @@ public class DaoDeporte {
 			e.printStackTrace();
 		}
 	}
+	
 }

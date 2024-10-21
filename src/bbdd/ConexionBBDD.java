@@ -16,7 +16,6 @@ public class ConexionBBDD {
 		 Properties connConfig=loadProperties() ;
 		 String url=connConfig.getProperty("dburl");
          connection = DriverManager.getConnection(url, connConfig);
-         connection.setAutoCommit(true);
          DatabaseMetaData databaseMetaData = connection.getMetaData();
          //debug
          
@@ -29,7 +28,7 @@ public class ConexionBBDD {
          System.out.println("----------------------------------------------------------------");
          System.out.println();
          
-         connection.setAutoCommit(true);
+         connection.setAutoCommit(false);
 	}
 	
 	public Connection CloseConexion() throws SQLException{
