@@ -82,19 +82,38 @@ public class DaoCreaBBDD {
 			ejecutarUpdate(crearTablaOlimpiada);
 			ejecutarUpdate(crearTablaEvento);
 			ejecutarUpdate(crearTablaParticipacion);
-			if(archivoCSV.exists()&&archivoCSV.isFile()&&ruta.endsWith(".csv")) {
+			if(archivoCSV.isFile()&&ruta.endsWith(".csv")) {
 				try(BufferedReader br=new BufferedReader(new FileReader(archivoCSV))){
 					String linea=br.readLine();
 					if(linea.equals("\"ID\",\"Name\",\"Sex\",\"Age\",\"Height\",\"Weight\",\"Team\",\"NOC\",\"Games\",\"Year\",\"Season\",\"City\",\"Sport\",\"Event\",\"Medal\"")) {
 						linea=br.readLine();
 						while(linea!=null) {
 							String leido[]=linea.split(",");
-							DaoDeportista.aniadirDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), Integer.parseInt(leido[4]));
-							DaoDeporte.aniadirDeporte(leido[12]);
-							DaoEquipo.aniadirEquipo(leido[6], leido[7]);
-							DaoEvento.aniadirEvento(leido[13], Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])));
-							DaoOlimpiada.aniadirOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11]);
-							DaoParticipacion.aniadirParticipacion(Integer.parseInt(DaoEvento.conseguirIdEvento(leido[13], Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])))),
+							for(int i=0;i<leido.length;i++) {
+								if(leido[i].contains("\"")) {
+									leido[i]=leido[i].substring(1,leido[i].length()-1);
+								}
+							}
+							if(leido[3].equals("NA")){leido[3]="-1";}
+							if(leido[4].equals("NA")){leido[4]="-1";}
+							if(leido[5].equals("NA")){leido[5]="-1";}
+							if(DaoDeportista.conseguirIdDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), Integer.parseInt(leido[4]))==null){
+								DaoDeportista.aniadirDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), Integer.parseInt(leido[4]));
+							}
+							if(DaoDeporte.conseguirIdDeporte(leido[12])==null) {
+								DaoDeporte.aniadirDeporte(leido[12]);
+							}
+							if(DaoEquipo.conseguirIdEquipo(leido[6], leido[7])==null) {
+								DaoEquipo.aniadirEquipo(leido[6], leido[7]);
+							}
+							if(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])==null) {
+								DaoOlimpiada.aniadirOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11]);
+							}
+							if(DaoEvento.conseguirIdEvento(leido[13], Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),
+									Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])))==null){
+								DaoEvento.aniadirEvento(leido[13], Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])));
+							}
+							DaoParticipacion.aniadirParticipacion(Integer.parseInt(DaoDeportista.conseguirIdDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), Integer.parseInt(leido[4]))),Integer.parseInt(DaoEvento.conseguirIdEvento(leido[13], Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])))),
 									Integer.parseInt(DaoEquipo.conseguirIdEquipo(leido[6], leido[7])), Integer.parseInt(leido[3]), leido[14]);
 							linea=br.readLine();
 						}
@@ -105,6 +124,9 @@ public class DaoCreaBBDD {
 				} catch (IOException e) {
 					System.out.println("Ha ocurrido algún error en la carga");
 				}
+			}
+			else {
+				System.out.println("El archivo csv no existe");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

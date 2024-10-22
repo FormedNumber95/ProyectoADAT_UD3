@@ -18,7 +18,7 @@ public class ConexionBBDD {
          connection = DriverManager.getConnection(url, connConfig);
          DatabaseMetaData databaseMetaData = connection.getMetaData();
          //debug
-         
+         /*
          System.out.println();
          System.out.println("--- Datos de conexión ------------------------------------------");
          System.out.printf("Base de datos: %s%n", databaseMetaData.getDatabaseProductName());
@@ -27,7 +27,7 @@ public class ConexionBBDD {
          System.out.printf("  Versión: %s%n", databaseMetaData.getDriverVersion());
          System.out.println("----------------------------------------------------------------");
          System.out.println();
-         
+         */
          connection.setAutoCommit(false);
 	}
 	

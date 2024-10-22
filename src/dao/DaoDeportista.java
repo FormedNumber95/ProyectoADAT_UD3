@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bbdd.ConexionBBDD;
@@ -23,10 +24,32 @@ public class DaoDeportista {
 			pstmt.executeUpdate();
 			conection.commit();
 			pstmt.close();
-			conection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static String conseguirIdDeportista(String nombreDeportista,char sexo,float peso,int altura) {
+		conection=ConexionBBDD.getConnection();
+		String select="SELECT id_deportista FROM Deportista WHERE nombre=? AND sexo=? AND peso=? AND altura=?";
+		try {
+			PreparedStatement pstmt;
+			pstmt=conection.prepareStatement(select);
+			pstmt.setString(1,nombreDeportista);
+			pstmt.setString(2,sexo+"");
+			pstmt.setFloat(3,peso);
+			pstmt.setInt(4,altura);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				String id=rs.getString("id_deportista");
+				conection.commit();
+				pstmt.close();
+				return id;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

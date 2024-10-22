@@ -21,7 +21,6 @@ public class DaoDeporte {
 			pstmt.executeUpdate();
 			conection.commit();
 			pstmt.close();
-			conection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -37,8 +36,8 @@ public class DaoDeporte {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				String id=rs.getString("id_deporte");
+				conection.commit();
 				pstmt.close();
-				conection.close();
 				return id;
 			}
 		} catch (SQLException e) {

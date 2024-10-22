@@ -23,7 +23,6 @@ public class DaoEquipo {
 			pstmt.executeUpdate();
 			conection.commit();
 			pstmt.close();
-			conection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -40,8 +39,8 @@ public class DaoEquipo {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				String id=rs.getString("id_equipo");
+				conection.commit();
 				pstmt.close();
-				conection.close();
 				return id;
 			}
 		} catch (SQLException e) {
