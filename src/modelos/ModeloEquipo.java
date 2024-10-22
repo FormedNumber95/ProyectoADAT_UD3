@@ -2,9 +2,17 @@ package modelos;
 
 public class ModeloEquipo {
 	
-	String nombreEquipo;
-	String iniciales;
+	private String nombreEquipo;
+	private String iniciales;
 	
+	public String getNombreEquipo() {
+		return nombreEquipo;
+	}
+
+	public String getIniciales() {
+		return iniciales;
+	}
+
 	public ModeloEquipo(String nombreEquipo, String iniciales) {
 		this.nombreEquipo = nombreEquipo;
 		this.iniciales = iniciales;

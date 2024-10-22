@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bbdd.ConexionBBDD;
+import modelos.ModeloDeporte;
 
 public class DaoDeporte {
 	
@@ -28,7 +29,7 @@ public class DaoDeporte {
 	
 	public static String conseguirIdDeporte(String nombre) {
 		conection=ConexionBBDD.getConnection();
-		String select="SELECT id_deporte FROM Deporte where nombre=?";
+		String select="SELECT id_deporte FROM Deporte WHERE nombre=?";
 		try {
 			PreparedStatement pstmt;
 			pstmt=conection.prepareStatement(select);
@@ -45,4 +46,24 @@ public class DaoDeporte {
 		}
 		return null;
 	}
+	
+	public static ModeloDeporte crearModeloDeporte(int id) {
+		conection=ConexionBBDD.getConnection();
+		String select="SELECT nombre FROM Deporte WHERE id_deporte=?";
+		try {
+			PreparedStatement pstmt;
+			pstmt=conection.prepareStatement(select);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				conection.commit();
+				pstmt.close();
+				return new ModeloDeporte(rs.getString("nombre"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 }

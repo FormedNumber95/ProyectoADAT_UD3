@@ -2,10 +2,10 @@ package modelos;
 
 public class ModeloDeportista {
 	
-	String nombreDeportista;
-	char sexo;
-	int altura;
-	float peso;
+	private String nombreDeportista;
+	private char sexo;
+	private int altura;
+	private float peso;
 	
 	public ModeloDeportista(String nombreDeportista, char sexo, int altura, float peso) {
 		this.nombreDeportista = nombreDeportista;
@@ -13,5 +13,22 @@ public class ModeloDeportista {
 		this.altura = altura;
 		this.peso = peso;
 	}
+
+	public String getNombreDeportista() {
+		return nombreDeportista;
+	}
+
+	public char getSexo() {
+		return sexo;
+	}
+
+	public int getAltura() {
+		return altura;
+	}
+
+	public float getPeso() {
+		return peso;
+	}
+	
 	
 }

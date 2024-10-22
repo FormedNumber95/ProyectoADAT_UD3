@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bbdd.ConexionBBDD;
+import modelos.ModeloOlimpiada;
 
 public class DaoOlimpiada {
 	
@@ -51,5 +52,26 @@ public class DaoOlimpiada {
 		}
 		return null;
 	}
+
+	public static ModeloOlimpiada crearModeloOlimpiada(int id) {
+		conection=ConexionBBDD.getConnection();
+		String select="SELECT nombre,anio,temporada,ciudad FROM Olimpiada WHERE id_olimpiada=?";
+		try {
+			PreparedStatement pstmt;
+			pstmt=conection.prepareStatement(select);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				conection.commit();
+				pstmt.close();
+				return new ModeloOlimpiada(rs.getString("nombre"), rs.getInt("anio"),rs.getString("temporada"),rs.getString("ciudad"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 	
 }

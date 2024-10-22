@@ -2,10 +2,14 @@ package modelos;
 
 public class ModeloDeporte {
 
-	String nombreDeporte;
+	private String nombreDeporte;
 	
 	public ModeloDeporte(String nombre) {
 		this.nombreDeporte=nombre;
+	}
+	
+	public String getNombreDeporte() {
+		return nombreDeporte;
 	}
 	
 }

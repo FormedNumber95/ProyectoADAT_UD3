@@ -1,10 +1,13 @@
 package proyecto;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import bbdd.ConexionBBDD;
 import dao.DaoCreaBBDD;
+import dao.DaoDeportista;
+import modelos.ModeloParticipacion;
 
 public class ManejoDeConectores {
 	
@@ -31,7 +34,7 @@ public class ManejoDeConectores {
 			DaoCreaBBDD.crearBBDD(ruta);
 			break;
 		case 2:
-			
+			ListarDeportistas();
 			break;
 		case 3:
 	
@@ -49,5 +52,18 @@ public class ManejoDeConectores {
 			System.out.println("Opcion no valida");
 			break;
 		}
+	}
+
+	private static void ListarDeportistas() {
+		int i=10;
+		while(DaoDeportista.crearModeloDeportista(i+"")!=null) {
+			listaParticipaciones(i);
+		}
+	}
+	
+	public static ArrayList<ModeloParticipacion> listaParticipaciones(int idDeportista){
+		ArrayList<ModeloParticipacion> lista=new ArrayList<ModeloParticipacion>();
+		
+		return lista;
 	}
 }

@@ -97,6 +97,8 @@ public class DaoCreaBBDD {
 							if(leido[3].equals("NA")){leido[3]="-1";}
 							if(leido[4].equals("NA")){leido[4]="-1";}
 							if(leido[5].equals("NA")){leido[5]="-1";}
+							leido[5]=Math.round(Float.parseFloat(leido[5]))+"";
+							//muchos errores en el csv athlete_events-sort.csv
 							if(DaoDeportista.conseguirIdDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), Integer.parseInt(leido[4]))==null){
 								DaoDeportista.aniadirDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), Integer.parseInt(leido[4]));
 							}
@@ -113,8 +115,16 @@ public class DaoCreaBBDD {
 									Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])))==null){
 								DaoEvento.aniadirEvento(leido[13], Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])));
 							}
-							DaoParticipacion.aniadirParticipacion(Integer.parseInt(DaoDeportista.conseguirIdDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), Integer.parseInt(leido[4]))),Integer.parseInt(DaoEvento.conseguirIdEvento(leido[13], Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])))),
-									Integer.parseInt(DaoEquipo.conseguirIdEquipo(leido[6], leido[7])), Integer.parseInt(leido[3]), leido[14]);
+							if(!DaoParticipacion.existeIdParticipacion(Integer.parseInt(DaoDeportista.conseguirIdDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]),Integer.parseInt(leido[4]))),
+									Integer.parseInt(DaoEvento.conseguirIdEvento(leido[13], 
+											Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),
+											Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])))))) {
+								DaoParticipacion.aniadirParticipacion(Integer.parseInt(DaoDeportista.conseguirIdDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), 
+										Integer.parseInt(leido[4]))),Integer.parseInt(DaoEvento.conseguirIdEvento(leido[13], 
+												Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(leido[8],Integer.parseInt(leido[9]), leido[10], leido[11])),
+												Integer.parseInt(DaoDeporte.conseguirIdDeporte(leido[12])))),
+										Integer.parseInt(DaoEquipo.conseguirIdEquipo(leido[6], leido[7])), Integer.parseInt(leido[3]), leido[14]);
+							}
 							linea=br.readLine();
 						}
 						System.out.println("La carga de la información se ha realizado correctamente");
