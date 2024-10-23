@@ -17,6 +17,12 @@ public class ModeloParticipacion {
 		this.edad = edad;
 		this.medalla = medalla;
 	}
+	
+	@Override
+	public String toString() {
+		return this.deportista.getNombreDeportista()+","+this.deportista.getAltura()+","+this.deportista.getPeso()+
+				","+this.edad+","+this.equipo.getNombreEquipo()+","+this.medalla;
+	}
 
 	public ModeloDeportista getDeportista() {
 		return deportista;
