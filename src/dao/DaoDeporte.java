@@ -10,10 +10,19 @@ import bbdd.ConexionBBDD;
 import modelos.ModeloDeporte;
 import modelos.ModeloEvento;
 
+/**
+ * Clase DaoDeporte.
+ */
 public class DaoDeporte {
 	
+	/** The conection. */
 	private static Connection conection;
 	
+	/**
+	 * Aniadir deporte.
+	 *
+	 * @param nombreDeporte the nombre deporte
+	 */
 	public static void aniadirDeporte(String nombreDeporte) {
 		conection=ConexionBBDD.getConnection();
 		String insertar="INSERT INTO Deporte (nombre) VALUES (?)";
@@ -28,6 +37,12 @@ public class DaoDeporte {
 		}
 	}
 	
+	/**
+	 * Conseguir id deporte.
+	 *
+	 * @param nombre the nombre
+	 * @return the string
+	 */
 	public static String conseguirIdDeporte(String nombre) {
 		conection=ConexionBBDD.getConnection();
 		String select="SELECT id_deporte FROM Deporte WHERE nombre=?";
@@ -47,6 +62,12 @@ public class DaoDeporte {
 		return null;
 	}
 	
+	/**
+	 * Crear modelo deporte.
+	 *
+	 * @param id the id
+	 * @return the modelo deporte
+	 */
 	public static ModeloDeporte crearModeloDeporte(int id) {
 		conection=ConexionBBDD.getConnection();
 		String select="SELECT nombre FROM Deporte WHERE id_deporte=?";
@@ -65,6 +86,12 @@ public class DaoDeporte {
 		return null;
 	}
 	
+	/**
+	 * Lista deportes por olimpiada.
+	 *
+	 * @param idOlimpiada the id olimpiada
+	 * @return the array list
+	 */
 	public static ArrayList<ModeloDeporte> listaDeportesPorOlimpiada(int idOlimpiada){
 		conection=ConexionBBDD.getConnection();
 		ArrayList<ModeloDeporte>lst=new ArrayList<ModeloDeporte>();

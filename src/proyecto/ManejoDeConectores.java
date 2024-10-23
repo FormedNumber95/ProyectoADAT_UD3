@@ -17,8 +17,16 @@ import modelos.ModeloEvento;
 import modelos.ModeloOlimpiada;
 import modelos.ModeloParticipacion;
 
+/**
+ * Clase ManejoDeConectores.
+ */
 public class ManejoDeConectores {
 	
+	/**
+	 * Metodo que lanza el menu.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		try {
 			ConexionBBDD con=new ConexionBBDD();
@@ -95,7 +103,54 @@ public class ManejoDeConectores {
 			}
 			break;
 		case 4:
-	
+			resp=0;
+			System.out.println("Dime el nombre a buscar:");
+			String nombre=input.nextLine();
+			ArrayList<ModeloDeportista>lstDeportistas=DaoDeportista.buscarNombresDeportistas(nombre);
+			if(lstDeportistas.size()>0) {
+				do {
+					System.out.println("Elige al deportista (usando el numero)");
+					for(int i=0;i<lstDeportistas.size();i++) {
+						System.out.println((i+1)+": "+lstDeportistas.get(i).getNombreDeportista());
+					}
+					resp=input.nextInt();
+					input.nextLine();
+				}while(resp<1||resp>lstDeportistas.size());
+				ModeloDeportista deportista=lstDeportistas.get(resp-1);
+				lstEventos=DaoEvento.crearListaModelosPorLstId(DaoParticipacion.darIdEvento(Integer.parseInt(DaoDeportista.conseguirIdDeportista(lstDeportistas.get(resp-1).getNombreDeportista(),lstDeportistas.get(resp-1).getSexo(),lstDeportistas.get(resp-1).getPeso(),lstDeportistas.get(resp-1).getAltura()))));
+				do {
+					System.out.println("Elige el evento (usando el numero)");
+					for(int i=0;i<lstEventos.size();i++) {
+						System.out.println((i+1)+": "+lstEventos.get(i).getNombreEvento());
+					}
+					resp=input.nextInt();
+					input.nextLine();
+				}while(resp<1||resp>lstEventos.size());
+				ModeloEvento evento=DaoEvento.crearPorId(Integer.parseInt(DaoEvento.conseguirIdEvento(lstEventos.get(resp-1).getNombreEvento(),Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(lstEventos.get(resp-1).getOlimpiada().getNombreOlimpiada(),lstEventos.get(resp-1).getOlimpiada().getAnio(),lstEventos.get(resp-1).getOlimpiada().getTemporada(),lstEventos.get(resp-1).getOlimpiada().getCiudad())),Integer.parseInt(DaoDeporte.conseguirIdDeporte(lstEventos.get(resp-1).getDeporte().getNombreDeporte())))));
+				do {
+					System.out.println("¿Que medalla tiene quieres poner?");
+					System.out.println("1 Ninguna\n2 Bronce\n3 Plata\n4 Oro");
+					resp=input.nextInt();
+					input.nextLine();
+				}while(resp!=1&&resp!=2&&resp!=3&&resp!=4);
+				String medalla="Gold";
+				switch (resp) {
+				case 1:
+					medalla="NA";
+					break;
+				case 2:
+					medalla="Bronze";
+					break;
+				case 3:
+					medalla="Silver";
+					break;
+				}
+				DaoParticipacion.editarMedalla(Integer.parseInt(DaoDeportista.conseguirIdDeportista(deportista.getNombreDeportista(),deportista.getSexo(),deportista.getPeso(),deportista.getAltura())),
+						Integer.parseInt(DaoEvento.conseguirIdEvento(evento.getNombreEvento(),Integer.parseInt(DaoOlimpiada.conseguirIdOlimpiada(evento.getOlimpiada().getNombreOlimpiada(),evento.getOlimpiada().getAnio(),evento.getOlimpiada().getTemporada(),evento.getOlimpiada().getCiudad())),Integer.parseInt(DaoDeporte.conseguirIdDeporte(evento.getDeporte().getNombreDeporte())))),
+						medalla);
+			}else {
+				System.out.println("No hay ningun deportista que contenga esa cadena de caracteres en el nombre");
+			}
 			break;
 		case 5:
 	
@@ -109,6 +164,9 @@ public class ManejoDeConectores {
 		}
 	}
 
+	/**
+	 * Listar deportistas.
+	 */
 	private static void ListarDeportistas() {
 		int i=10;
 		while(DaoDeportista.crearModeloDeportista(i+"")!=null) {
@@ -124,6 +182,12 @@ public class ManejoDeConectores {
 		}
 	}
 	
+	/**
+	 * Lista participaciones.
+	 *
+	 * @param idDeportista the id deportista
+	 * @return the array list
+	 */
 	public static ArrayList<ModeloParticipacion> listaParticipaciones(int idDeportista){
 		ArrayList<ModeloParticipacion> lista=new ArrayList<ModeloParticipacion>();
 		for(String idEvento:DaoParticipacion.darIdEvento(idDeportista)) {

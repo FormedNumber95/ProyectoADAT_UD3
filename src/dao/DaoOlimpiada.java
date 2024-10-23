@@ -9,10 +9,22 @@ import java.util.ArrayList;
 import bbdd.ConexionBBDD;
 import modelos.ModeloOlimpiada;
 
+/**
+ * Clase DaoOlimpiada.
+ */
 public class DaoOlimpiada {
 	
+	/** The conection. */
 	private static Connection conection;
 	
+	/**
+	 * Aniadir olimpiada.
+	 *
+	 * @param nombre the nombre
+	 * @param anio the anio
+	 * @param temporada the temporada
+	 * @param ciudad the ciudad
+	 */
 	public static void aniadirOlimpiada(String nombre, int anio,String temporada,String ciudad) {
 		conection=ConexionBBDD.getConnection();
 		String insertar="INSERT INTO Olimpiada (nombre,anio,temporada,ciudad) VALUES (?,?,?,?)";
@@ -30,6 +42,15 @@ public class DaoOlimpiada {
 		}
 	}
 	
+	/**
+	 * Conseguir id olimpiada.
+	 *
+	 * @param nombre the nombre
+	 * @param anio the anio
+	 * @param temporada the temporada
+	 * @param ciudad the ciudad
+	 * @return the string
+	 */
 	public static String conseguirIdOlimpiada(String nombre, int anio,String temporada,String ciudad) {
 		conection=ConexionBBDD.getConnection();
 		String select="SELECT id_olimpiada FROM Olimpiada WHERE nombre=? AND anio=? AND temporada=? AND ciudad=?";
@@ -52,6 +73,12 @@ public class DaoOlimpiada {
 		return null;
 	}
 
+	/**
+	 * Crear modelo olimpiada.
+	 *
+	 * @param id the id
+	 * @return the modelo olimpiada
+	 */
 	public static ModeloOlimpiada crearModeloOlimpiada(int id) {
 		conection=ConexionBBDD.getConnection();
 		String select="SELECT nombre,anio,temporada,ciudad FROM Olimpiada WHERE id_olimpiada=?";
@@ -70,6 +97,12 @@ public class DaoOlimpiada {
 		return null;
 	}
 	
+	/**
+	 * Lista olimpiadas por temporada.
+	 *
+	 * @param temp the temp
+	 * @return the array list
+	 */
 	public static ArrayList<ModeloOlimpiada> listaOlimpiadasPorTemporada(int temp){
 		ArrayList<ModeloOlimpiada> lst=new ArrayList<ModeloOlimpiada>();
 		String temporada="Winter";

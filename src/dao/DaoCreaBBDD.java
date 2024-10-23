@@ -12,10 +12,19 @@ import java.sql.SQLException;
 
 import bbdd.ConexionBBDD;
 
+/**
+ * Clase DaoCreaBBDD.
+ */
 public class DaoCreaBBDD {
 	
+	/** The conection. */
 	private static Connection conection;
 	
+	/**
+	 * Crear BBDD mediante un csv que se pasa como parametro.
+	 *
+	 * @param ruta the ruta
+	 */
 	public static void crearBBDD(String ruta) {
 		conection=ConexionBBDD.getConnection();
 		File archivoCSV=new File(ruta);
@@ -138,6 +147,12 @@ public class DaoCreaBBDD {
 		}
 	}
 
+	/**
+	 * Ejecutar update.
+	 *
+	 * @param sentencia the sentencia
+	 * @throws SQLException the SQL exception
+	 */
 	static void ejecutarUpdate(String sentencia) throws SQLException {
 		PreparedStatement pstmt = conection.prepareStatement(sentencia);
 		pstmt.executeUpdate();
