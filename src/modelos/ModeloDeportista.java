@@ -30,5 +30,9 @@ public class ModeloDeportista {
 		return peso;
 	}
 	
+	@Override
+	public String toString() {
+		return this.nombreDeportista+","+this.sexo+","+this.altura+","+this.peso;
+	}
 	
 }

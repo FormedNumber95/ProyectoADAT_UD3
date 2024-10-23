@@ -26,7 +26,6 @@ public class DaoParticipacion {
 			pstmt.setString(5, medalla);
 			pstmt.executeUpdate();
 			conection.commit();
-			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -43,7 +42,6 @@ public class DaoParticipacion {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				conection.commit();
-				pstmt.close();
 				return true;
 			}
 		} catch (SQLException e) {
@@ -54,16 +52,15 @@ public class DaoParticipacion {
 	
 	public static ArrayList<String> darIdEvento(int idDeportista) {
 		conection=ConexionBBDD.getConnection();
-		String select="SELECT id_evento FROM Participaciones WHERE id_deportista=?";
+		String select="SELECT id_evento FROM Participacion WHERE id_deportista=?";
 		ArrayList<String> lst=new ArrayList<String>();
 		try {
 			PreparedStatement pstmt;
 			pstmt=conection.prepareStatement(select);
 			pstmt.setInt(1, idDeportista);
 			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
 				conection.commit();
-				pstmt.close();
 				lst.add(rs.getString("id_evento"));
 			}
 		} catch (SQLException e) {
@@ -71,9 +68,25 @@ public class DaoParticipacion {
 		}
 		return lst;
 	}
-	//TODO ACABAR
+
+	
 	public static ModeloParticipacion crearModeloParticipacion(int idDeportista,int idEvento) {
 		conection=ConexionBBDD.getConnection();
-		String select="SELECT  FROM Participaciones WHERE id_deportista=?";
+		String select="SELECT id_equipo,edad,medalla FROM Participacion WHERE id_deportista=? AND id_evento=?";
+		try {
+			PreparedStatement pstmt;
+			pstmt=conection.prepareStatement(select);
+			pstmt.setInt(1,idDeportista);
+			pstmt.setInt(2, idEvento);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				conection.commit();
+				return new ModeloParticipacion(DaoDeportista.crearModeloDeportista(idDeportista+""),DaoEvento.crearPorId(idEvento),DaoEquipo.crearModeloEquipo(rs.getInt("id_equipo")), rs.getInt("edad"),rs.getString("medalla"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
+	
 }

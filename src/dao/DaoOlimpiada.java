@@ -24,7 +24,6 @@ public class DaoOlimpiada {
 			pstmt.setString(4,ciudad);
 			pstmt.executeUpdate();
 			conection.commit();
-			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -44,7 +43,6 @@ public class DaoOlimpiada {
 			if (rs.next()) {
 				String id=rs.getString("id_olimpiada");
 				conection.commit();
-				pstmt.close();
 				return id;
 			}
 		} catch (SQLException e) {
@@ -63,7 +61,6 @@ public class DaoOlimpiada {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				conection.commit();
-				pstmt.close();
 				return new ModeloOlimpiada(rs.getString("nombre"), rs.getInt("anio"),rs.getString("temporada"),rs.getString("ciudad"));
 			}
 		} catch (SQLException e) {

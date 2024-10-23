@@ -23,7 +23,6 @@ public class DaoEvento {
 			pstmt.setInt(3, idDeporte);
 			pstmt.executeUpdate();
 			conection.commit();
-			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -42,7 +41,6 @@ public class DaoEvento {
 			if (rs.next()) {
 				String id=rs.getString("id_evento");
 				conection.commit();
-				pstmt.close();
 				return id;
 			}
 		} catch (SQLException e) {
@@ -61,7 +59,6 @@ public class DaoEvento {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				conection.commit();
-				pstmt.close();
 				return new ModeloEvento(rs.getString("nombre"), DaoDeporte.crearModeloDeporte(rs.getInt("id_deporte")),DaoOlimpiada.crearModeloOlimpiada(rs.getInt("id_olimpiada")));
 			}
 		} catch (SQLException e) {

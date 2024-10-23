@@ -7,6 +7,7 @@ import java.util.Scanner;
 import bbdd.ConexionBBDD;
 import dao.DaoCreaBBDD;
 import dao.DaoDeportista;
+import dao.DaoParticipacion;
 import modelos.ModeloParticipacion;
 
 public class ManejoDeConectores {
@@ -57,13 +58,23 @@ public class ManejoDeConectores {
 	private static void ListarDeportistas() {
 		int i=10;
 		while(DaoDeportista.crearModeloDeportista(i+"")!=null) {
-			listaParticipaciones(i);
+			System.out.println(DaoDeportista.crearModeloDeportista(i+"")+":");
+			ArrayList<ModeloParticipacion>lst=listaParticipaciones(i);
+			for(ModeloParticipacion part:lst) {
+				System.out.println(part.getEvento().getDeporte().getNombreDeporte()+","+
+						part.getEdad()+","+part.getEvento().getNombreEvento()+","+
+						part.getEquipo().getNombreEquipo()+","+part.getEvento().getOlimpiada().getNombreOlimpiada()+","+
+						part.getMedalla());
+			}
+			i++;
 		}
 	}
 	
 	public static ArrayList<ModeloParticipacion> listaParticipaciones(int idDeportista){
 		ArrayList<ModeloParticipacion> lista=new ArrayList<ModeloParticipacion>();
-		
+		for(String idEvento:DaoParticipacion.darIdEvento(idDeportista)) {
+			lista.add(DaoParticipacion.crearModeloParticipacion(idDeportista, Integer.parseInt(idEvento)));
+		}
 		return lista;
 	}
 }

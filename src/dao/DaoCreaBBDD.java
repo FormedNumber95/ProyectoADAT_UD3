@@ -85,20 +85,15 @@ public class DaoCreaBBDD {
 			if(archivoCSV.isFile()&&ruta.endsWith(".csv")) {
 				try(BufferedReader br=new BufferedReader(new FileReader(archivoCSV))){
 					String linea=br.readLine();
-					if(linea.equals("\"ID\",\"Name\",\"Sex\",\"Age\",\"Height\",\"Weight\",\"Team\",\"NOC\",\"Games\",\"Year\",\"Season\",\"City\",\"Sport\",\"Event\",\"Medal\"")) {
+					//Cambiar el csv a mano para quitar todas las "
+					if(linea.equals("ID,Name,Sex,Age,Height,Weight,Team,NOC,Games,Year,Season,City,Sport,Event,Medal")) {
 						linea=br.readLine();
 						while(linea!=null) {
 							String leido[]=linea.split(",");
-							for(int i=0;i<leido.length;i++) {
-								if(leido[i].contains("\"")) {
-									leido[i]=leido[i].substring(1,leido[i].length()-1);
-								}
-							}
 							if(leido[3].equals("NA")){leido[3]="-1";}
 							if(leido[4].equals("NA")){leido[4]="-1";}
 							if(leido[5].equals("NA")){leido[5]="-1";}
 							leido[5]=Math.round(Float.parseFloat(leido[5]))+"";
-							//muchos errores en el csv athlete_events-sort.csv
 							if(DaoDeportista.conseguirIdDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), Integer.parseInt(leido[4]))==null){
 								DaoDeportista.aniadirDeportista(leido[1], leido[2].charAt(0), Float.parseFloat(leido[5]), Integer.parseInt(leido[4]));
 							}

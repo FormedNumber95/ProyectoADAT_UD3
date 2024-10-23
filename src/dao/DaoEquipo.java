@@ -23,7 +23,6 @@ public class DaoEquipo {
 			pstmt.setString(2,iniciales);
 			pstmt.executeUpdate();
 			conection.commit();
-			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -41,7 +40,6 @@ public class DaoEquipo {
 			if (rs.next()) {
 				String id=rs.getString("id_equipo");
 				conection.commit();
-				pstmt.close();
 				return id;
 			}
 		} catch (SQLException e) {
@@ -60,7 +58,6 @@ public class DaoEquipo {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				conection.commit();
-				pstmt.close();
 				return new ModeloEquipo(rs.getString("nombre"), rs.getString("iniciales"));
 			}
 		} catch (SQLException e) {

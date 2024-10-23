@@ -24,7 +24,6 @@ public class DaoDeportista {
 			pstmt.setInt(4, altura);
 			pstmt.executeUpdate();
 			conection.commit();
-			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -44,7 +43,6 @@ public class DaoDeportista {
 			if (rs.next()) {
 				String id=rs.getString("id_deportista");
 				conection.commit();
-				pstmt.close();
 				return id;
 			}
 		} catch (SQLException e) {
@@ -63,7 +61,6 @@ public class DaoDeportista {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				conection.commit();
-				pstmt.close();
 				return new ModeloDeportista(rs.getString("nombre"), rs.getString("sexo").charAt(0), rs.getInt("altura"), rs.getInt("peso"));
 			}
 		} catch (SQLException e) {
