@@ -170,4 +170,25 @@ public class DaoParticipacion {
 		}
 	}
 	
+	/**
+	 * Eliminar participacion.
+	 *
+	 * @param idDeportista the id deportista
+	 * @param idEvento the id evento
+	 */
+	public static void eliminarParticipacion(int idDeportista,int idEvento) {
+		conection=ConexionBBDD.getConnection();
+		String delete="DELETE FROM Participacion WHERE id_deportista=? AND id_evento=?";
+		try {
+			PreparedStatement pstmt;
+			pstmt=conection.prepareStatement(delete);
+			pstmt.setInt(1,idDeportista);
+			pstmt.setInt(2, idEvento);
+			pstmt.executeUpdate();
+			conection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
